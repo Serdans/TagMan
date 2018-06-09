@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.Observable;
 import java.util.Observer;
@@ -14,11 +16,15 @@ public class PlayView extends JPanel implements Observer {
 	private TagManPainterPlain manPainter;
 	
 	public PlayView() {
+		this.setPreferredSize(new Dimension(1000, 800));
+		
+		this.setBackground(Color.BLUE);
+		
 		manPainter = new TagManPainterPlain();
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update(Observable o, Object object) {
 		
 	}
 	
@@ -26,6 +32,11 @@ public class PlayView extends JPanel implements Observer {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
+	}
+	
+	private void drawTagMan(Graphics g, TagMan man) {
+		
+		manPainter.paint(g, this, man);
 	}
 	
 	private void drawDashes(Dash[] dashes, Graphics g) {
