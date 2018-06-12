@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import model.TagMan;
@@ -14,6 +15,7 @@ public class TagManPainterPlain implements ITagManPainter {
 		int width = man.getWidth();
 		int height = man.getHeight();
 		
+		g.setColor(Color.RED);
 		g.fillOval(xPos, yPos, width, height);
 	}
 	
