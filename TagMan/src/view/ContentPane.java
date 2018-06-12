@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JPanel;
 
+import controller.MainController;
+import controller.TimeController;
 import model.Game;
 
 public class ContentPane extends JPanel {
@@ -15,8 +17,7 @@ public class ContentPane extends JPanel {
 	private GameView gameView;
 	private PlayView playView;
 	
-	public ContentPane(Game game) {
-		this.setPreferredSize(new Dimension(1300, 800));
+	public ContentPane(MainController mc, Game game) {
 		this.setLayout(new GridBagLayout());
 		
 		timeView = new TimeView();
@@ -26,6 +27,14 @@ public class ContentPane extends JPanel {
 		
 		createSideBar();
 		addViews();
+	}
+	
+	public PlayView getPlayView() {
+		return playView;
+	}
+	
+	public TimeView getTimeView() {
+		return timeView;
 	}
 	
 	private void addViews() {

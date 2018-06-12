@@ -7,8 +7,8 @@ public class Wall extends GameObject {
 	}
 	
 	public void createNormalWall() {
-		setWidth(100);
-		setHeight(400);
+		setWidth(60);
+		setHeight(300);
 	}
 
 }

@@ -5,14 +5,19 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-public class TimeView extends JPanel {
+import controller.TimeController;
 
+public class TimeView extends JPanel implements Observer {
+
+	private TimeController tc;
 	private Font timeFont;
 	private JLabel timeAmount;
 	private JProgressBar timerBar;
@@ -20,6 +25,10 @@ public class TimeView extends JPanel {
 	public TimeView() {
 		initializeComponents();
 		addComponents();
+	}
+	
+	public void setTimeController(TimeController tc) {
+		this.tc = tc;
 	}
 	
 	private void addComponents() {
@@ -48,27 +57,32 @@ public class TimeView extends JPanel {
 		timeAmount.setForeground(Color.YELLOW);
 		timeAmount.setHorizontalAlignment(JLabel.CENTER);
 		
-		timerBar = new JProgressBar();
+		timerBar = new JProgressBar(JProgressBar.VERTICAL);
 		timerBar.setMaximum(30);
 		timerBar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.GRAY));
 	}
 	
-	private void setTimer(int time) {
+	public void setTimer(int time) {
 		String timeString = String.valueOf(time);
 		timerBar.setValue(time);
 		timeAmount.setText(timeString);
 		
 		switch (time) {
-		case 30: 
-			timerBar.setBackground(Color.CYAN);
+		case 30:
+			timerBar.setForeground(Color.CYAN);
 			break;
 		case 15:
-			timerBar.setBackground(Color.YELLOW);
+			timerBar.setForeground(Color.YELLOW);
 			break;
 		case 7:
-			timerBar.setBackground(Color.RED);
+			timerBar.setForeground(Color.RED);
 			break;
 		}
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		setTimer(tc.getTime());
 	}
 	
 }
