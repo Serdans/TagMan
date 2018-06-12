@@ -8,6 +8,7 @@ public class TagMan extends GameObject {
 	public TagMan(Game game) {
 		this.game = game;
 		
+		
 		setX(25);
 		setY(game.getArenaHeight()/2);
 		
@@ -39,10 +40,12 @@ public class TagMan extends GameObject {
 	}
 	
 	private boolean collisionsLeft() {
-		boolean collisionsLeft = true;
-		if (getX() - getWidth() > 0) {
-			collisionsLeft = false;
-		}
+		boolean collisionsLeft = false;
+		
+		int x1 = getX();
+		int y1 = getY();
+		int y2 = getY() + getHeight();
+		
 		return collisionsLeft;
 	}
 	

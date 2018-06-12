@@ -62,6 +62,7 @@ public class PlayView extends JPanel implements Observer {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		drawStandardWalls(g);
+		drawDashes(g);
 		drawTagMan(g);
 	}
 	
@@ -73,10 +74,11 @@ public class PlayView extends JPanel implements Observer {
 		Wall[] standardWalls = game.getStandardWalls();
 		
 		for (Wall wall : standardWalls) {
-			g.setColor(Color.GRAY);
-			g.fillRect(wall.getX(), wall.getY(), wall.getWidth(), wall.getHeight());
 			g.setColor(Color.LIGHT_GRAY);
-			g.drawRect(wall.getX(), wall.getY(), wall.getWidth(), wall.getHeight());
+
+			g.fillRect(wall.getX(), wall.getY(), wall.getWidth(), wall.getHeight());
+			g.setColor(Color.GRAY);
+			g.fillRect(wall.getX() + 10, wall.getY() + 10, wall.getWidth() - 20, wall.getHeight() - 20);
 		}
 	}
 	
@@ -84,7 +86,8 @@ public class PlayView extends JPanel implements Observer {
 		
 	}
 	
-	private void drawDashes(Dash[] dashes, Graphics g) {
+	private void drawDashes(Graphics g) {
+		Dash[] dashes = game.getDashes();
 		// Draw all dashes on the screen.
 		for (Dash dash : dashes) {
 			int xPos = dash.getX();
@@ -93,7 +96,10 @@ public class PlayView extends JPanel implements Observer {
 			int width = dash.getWidth();
 			int height = dash.getHeight();
 			
+			g.setColor(Color.WHITE);
 			g.fillRect(xPos, yPos, width, height);
+			g.setColor(Color.RED);
+			g.fillRect(xPos+1, yPos+1, width-2, height-2);
 		}
 	}
 	

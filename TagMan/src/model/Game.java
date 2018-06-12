@@ -16,6 +16,7 @@ public class Game extends Observable implements Runnable {
 	public Game() {
 		configArenaSize();
 		initializeObjects();
+		resetDashPosition();
 	}
 	
 	@Override
@@ -40,6 +41,10 @@ public class Game extends Observable implements Runnable {
 		return standardWalls;
 	}
 	
+	public Dash[] getDashes() {
+		return dashes;
+	}
+	
 	// Methods for arena
 	public int getArenaWidth() {
 		return arenaWidth;
@@ -54,6 +59,27 @@ public class Game extends Observable implements Runnable {
 		arenaHeight = 650;
 	}
 	
+	private void resetDashPosition() {
+		// Start dash position at the first free X with some spacing.
+		int dashX = standardWalls[0].getWidth();
+		
+		int occupiedSpace = dashX * 4;
+		int freeSpace = arenaWidth - occupiedSpace;
+		
+		int dashSpacing = freeSpace / 10;
+		System.out.println(arenaWidth);
+		
+		dashX += dashSpacing;
+		System.out.println(dashX);
+		System.out.println(dashSpacing);
+		
+		for (Dash dash : dashes) {
+			dash.setY(0);
+			dash.setX(dashX);
+			
+			dashX += dashSpacing;
+		}
+	}
 	
 	private void initializeObjects() {
 		tagman = new TagMan(this);
@@ -79,12 +105,17 @@ public class Game extends Observable implements Runnable {
 			wall.createNormalWall();
 		}
 		
-		standardWalls[1].setY(300);
+		int standardWallWidth = standardWalls[0].getWidth();
+		int standardWallHeight = standardWalls[0].getHeight();
 		
-		standardWalls[2].setX(500);
 		
-		standardWalls[3].setX(500);
-		standardWalls[3].setY(300);
+		
+		standardWalls[1].setY(arenaHeight - standardWallHeight);
+		standardWalls[2].setX(arenaWidth - standardWallWidth);
+		
+		
+		standardWalls[3].setX(arenaWidth - standardWallWidth);
+		standardWalls[3].setY(arenaHeight- standardWallHeight);
 	}
 
 
