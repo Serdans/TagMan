@@ -8,8 +8,8 @@ public class TagMan extends GameObject {
 	public TagMan(Game game) {
 		this.game = game;
 		
-		setX(100);
-		setY(100);
+		setX(25);
+		setY(game.getArenaHeight()/2);
 		
 		setWidth(50);
 		setHeight(50);
@@ -17,18 +17,8 @@ public class TagMan extends GameObject {
 	
 	@Override
 	public void moveObject(int x, int y) {
-		// Check what direction the TagMan is attempting to move in.
-
-		if (x > 0) {
-			if (!collisionsLeft() && !collisionsRight()) {
-				super.moveObject(x, y);
-			}
-		} else {
-			if (!collisionsUp() && !collisionsDown()) {
-				super.moveObject(x, y);
-			}
-		}
-		
+		System.out.println(getX() + " " + getY());
+		super.moveObject(x, y);
 	}
 	
 	

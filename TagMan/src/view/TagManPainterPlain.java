@@ -15,8 +15,11 @@ public class TagManPainterPlain implements ITagManPainter {
 		int width = man.getWidth();
 		int height = man.getHeight();
 		
+		int xPosToDraw = xPos - width / 2;
+		int yPosToDraw = yPos - height / 2;
+		
 		g.setColor(Color.RED);
-		g.fillOval(xPos, yPos, width, height);
+		g.fillOval(xPosToDraw, yPosToDraw, width, height);
 	}
 	
 }

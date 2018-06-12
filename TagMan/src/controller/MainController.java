@@ -54,15 +54,25 @@ public class MainController {
 		InputMap im = mainFrame.getPlayViewInputMap();
 		ActionMap am = mainFrame.getPlayViewActionMap();
 		
-		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), "UP");
-		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, false), "RIGHT");
-		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, false), "DOWN");
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "UP");
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "LEFT");
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "RIGHT");
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "DOWN");
 		
 		am.put("UP", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int speed = game.getTagMan().getSpeed();
 				game.getTagMan().moveObject(0, -speed);
+			}
+		});
+		
+		am.put("LEFT", new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int speed = game.getTagMan().getSpeed();
+				game.getTagMan().moveObject(-speed, 0);
 			}
 		});
 		

@@ -45,6 +45,9 @@ public class PlayView extends JPanel implements Observer {
 		this.setBackground(Color.BLUE);
 		this.setFocusable(true);
 		this.requestFocus();
+		
+		System.out.println(arenaWidth);
+		System.out.println(arenaHeight);
 	}
 
 	@Override

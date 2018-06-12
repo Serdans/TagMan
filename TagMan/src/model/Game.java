@@ -51,7 +51,7 @@ public class Game extends Observable implements Runnable {
 	
 	private void configArenaSize() {
 		arenaWidth = 1000;
-		arenaHeight = 600;
+		arenaHeight = 650;
 	}
 	
 	
