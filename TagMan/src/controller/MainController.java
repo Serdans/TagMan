@@ -72,17 +72,13 @@ public class MainController {
 		ActionMap am = mainFrame.getPlayViewActionMap();
 		
 		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "UP");
-		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "LEFT");
 		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "RIGHT");
 		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "DOWN");
 		
-		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD4, 0), "LEFT");
 		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD8, 0), "UP");
 		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD6, 0), "RIGHT");
 		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD2, 0), "DOWN");
 		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD9, 0), "UP_RIGHT");
-		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD7, 0), "UP_LEFT");
-		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD1, 0), "DOWN_LEFT");
 		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD3, 0), "DOWN_RIGHT");
 		
 		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_L, 0), "NEXT");
@@ -123,25 +119,6 @@ public class MainController {
 			}
 		});
 		
-		am.put("UP_LEFT", new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int speed = game.getTagMan().getSpeed() * 2/3;
-				game.getTagMan().moveObject(-speed, -speed);
-			}
-			
-		});
-		
-		am.put("DOWN_LEFT", new AbstractAction() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int speed = game.getTagMan().getSpeed() * 2/3;
-				game.getTagMan().moveObject(-speed, speed);
-				
-			}
-		});
-		
 		am.put("UP_RIGHT", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -163,15 +140,6 @@ public class MainController {
 			public void actionPerformed(ActionEvent e) {
 				int speed = game.getTagMan().getSpeed();
 				game.getTagMan().moveObject(0, -speed);
-			}
-		});
-		
-		am.put("LEFT", new AbstractAction() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int speed = game.getTagMan().getSpeed();
-				game.getTagMan().moveObject(-speed, 0);
 			}
 		});
 		
