@@ -19,6 +19,7 @@ public class TimeView extends JPanel implements Observer {
 
 	private TimeController tc;
 	private Font timeFont;
+	private JLabel timeText;
 	private JLabel timeAmount;
 	private JProgressBar timerBar;
 	
@@ -43,19 +44,32 @@ public class TimeView extends JPanel implements Observer {
 		this.add(timeAmount, gbc);
 		
 		gbc.gridy = 1;
-		gbc.weighty = 1;
+		gbc.weighty = 0.5;
+		gbc.insets = new Insets(10, 40, 10, 40);
 		this.add(timerBar, gbc);
+		
+		gbc.insets = new Insets(10, 10, 10, 10);
+		gbc.weighty = 1;
+		gbc.gridy = 2;
+		this.add(timeText, gbc);
 	}
 	
 	private void initializeComponents() {
 		timeFont = new Font("Calibri", Font.BOLD, 40);
 		timeAmount = new JLabel("0");
+		timeText = new JLabel("seconds");
+		
 		
 		timeAmount.setFont(timeFont);
 		timeAmount.setBackground(Color.GRAY);
 		timeAmount.setOpaque(true);
 		timeAmount.setForeground(Color.YELLOW);
 		timeAmount.setHorizontalAlignment(JLabel.CENTER);
+		
+		timeText.setBackground(Color.GRAY);
+		timeText.setOpaque(true);
+		timeText.setForeground(Color.YELLOW);
+		timeText.setHorizontalAlignment(JLabel.CENTER);
 		
 		timerBar = new JProgressBar(JProgressBar.VERTICAL);
 		timerBar.setMaximum(30);

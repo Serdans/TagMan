@@ -93,9 +93,14 @@ public class MainController {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (game.getTagMan().getFinished()) {
-					game.getTagMan().setFinished(false);
-					game.advanceLevel();
-					mainFrame.getPlayView().setBeginningLevelMessage();
+					if (game.advanceLevel()) {
+						game.getTagMan().setFinished(false);
+						mainFrame.getTimeView().setTimer(30);
+						mainFrame.getPlayView().setBeginningLevelMessage();
+					} else {
+						mainFrame.getPlayView().setWonMessage();
+					}
+					
 				}
 				
 			}
@@ -103,15 +108,15 @@ public class MainController {
 		
 		am.put("EXIT", new AbstractAction() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
 		
 		am.put("START", new AbstractAction() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if (!game.levelInprogress()) {
+			public void actionPerformed(ActionEvent e) {
+				if (!game.levelInprogress() && !game.getTagMan().getFinished()) {
 					game.startLevel();
 					tc.startTimer();
 				}

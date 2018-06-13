@@ -10,6 +10,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -57,6 +58,10 @@ public class PlayView extends JPanel implements Observer {
 		gameMessage.setPreLevelStartMessage();
 	}
 	
+	public void setWonMessage() {
+		gameMessage.setWonMessage();
+	}
+	
 	@Override
 	public void update(Observable o, Object object) {
 		if (game.levelInprogress()) {
@@ -64,13 +69,11 @@ public class PlayView extends JPanel implements Observer {
 				gameMessage.setVisible(false);
 			}
 		}
-		
 		if (game.getTagMan().getDead()) {
 			gameMessage.setVisible(true);
 			gameMessage.setGameOverMessage();
 		}
-		
-		if (game.getTagMan().getFinished() && game.getTagMan().getFinished()) {
+		if (game.getTagMan().getFinished() && !game.getGameOver()) {
 			gameMessage.setVisible(true);
 			gameMessage.setLevelOverMessage();
 		}
@@ -92,9 +95,6 @@ public class PlayView extends JPanel implements Observer {
 		manPainter.paint(g, this, game.getTagMan());
 	}
 	
-	private void drawWall(Graphics g) {
-		
-	}
 	
 	private void drawStandardWalls(Graphics g) {
 		Wall[] standardWalls = game.getStandardWalls();
@@ -103,6 +103,15 @@ public class PlayView extends JPanel implements Observer {
 			g.fillRect(wall.getX(), wall.getY(), wall.getWidth(), wall.getHeight());
 			g.setColor(Color.GRAY);
 			g.fillRect(wall.getX() + 10, wall.getY() + 10, wall.getWidth() - 20, wall.getHeight() - 20);
+		}
+		
+		ArrayList<Wall> levelWalls = game.getLevelWalls();
+		
+		for (Wall wall : levelWalls) {
+			g.setColor(Color.LIGHT_GRAY); 
+			g.fillRect(wall.getX(), wall.getY(), wall.getWidth(), wall.getHeight());
+			g.setColor(new Color(38, 39, 40)); // Really dark gray.
+			g.fillRect(wall.getX() + 5, wall.getY() + 5, wall.getWidth() - 10, wall.getHeight() - 10);
 		}
 	}
 	

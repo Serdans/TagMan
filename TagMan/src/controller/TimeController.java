@@ -61,7 +61,6 @@ public class TimeController extends Observable implements Runnable {
 					this.notifyObservers();
 					// Stop counting down.
 					countingDown = false;
-					mc.getGame().stopGame();
 				}
 				
 			} catch (InterruptedException e) {

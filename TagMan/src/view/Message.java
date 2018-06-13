@@ -29,6 +29,7 @@ public class Message extends JPanel {
 		this.setPreferredSize(new Dimension(500, 300));
 		this.game = game;
 		addMessage();
+		this.setOpaque(false);
 	}
 	
 	public void setWelcomeMessage() {
@@ -40,7 +41,7 @@ public class Message extends JPanel {
 	}
 	
 	public void setGameOverMessage() {
-		message.setText("<html><center>HIT - Game Over!<br>Your score: " + game.getScore() + " </html>");
+		message.setText("<html><center>HIT - Game Over!<br>Your score: " + game.getScore() + "<br>Press ESC to Exit.</html>");
 	}
 	
 	public void setLevelOverMessage() {
@@ -69,20 +70,6 @@ public class Message extends JPanel {
 		gbc.insets = new Insets(20, 20, 20, 20);
 		this.add(message, gbc);
 	}
-	
-	@Override
-	protected void paintComponent(Graphics g) {
-		Graphics2D g2d = (Graphics2D) g;
-		
-		g2d.setColor(Color.YELLOW);
-		
-		Stroke dashedLine = new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
-		g2d.setStroke(dashedLine);
-		RoundRectangle2D roundRect = new RoundRectangle2D.Float(0, 0, getWidth()-1, getHeight()-1, 10, 10);
-		
-		
-		g2d.draw(roundRect);
-		
-	}
+
 	
 }

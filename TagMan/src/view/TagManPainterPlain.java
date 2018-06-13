@@ -18,16 +18,32 @@ public class TagManPainterPlain implements ITagManPainter {
 		int xPosToDraw = xPos - width / 2;
 		int yPosToDraw = yPos - height / 2;
 		
-		g.setColor(Color.RED);
+		// Set default colors.
+		Color color1 = Color.RED;
+		Color color2 = Color.ORANGE;
+		Color color3 = Color.YELLOW;
+		
+		if (man.getFinished()) {
+			color1 = new Color(25, 89, 32); // Dark green.
+			color2 = Color.GREEN;
+			color3 = new Color(84, 247, 100); // Light green
+		} 
+		
+		g.setColor(color1);
 		g.fillOval(xPosToDraw, yPosToDraw, width, height);
 
-		int width2 = width * 4/5;
-		int height2 = height * 4/5;
-		int xPosToDraw2 = xPosToDraw + width2 / 2;
-		int yPosToDraw2 = yPosToDraw + height / 2;
+		width -= width / 5;
+		height -= height / 5;
+		g.setColor(color2);
+		// Draw a circle inside the bigger circle. Also keep calculating the circle's offset.
+		// The offset changes with the width / height / size.
+		g.fillOval(xPos - (width / 2), yPos - (width / 2), width, height);
 		
-		g.setColor(Color.ORANGE);
-		g.fillOval(xPosToDraw2, yPosToDraw2, width2, height2);
+		width -= width / 4;
+		height -= height / 4;
+		g.setColor(color3);
+		g.fillOval(xPos - (width / 2), yPos - (width / 2), width, height);
+		
 		
 	}
 	

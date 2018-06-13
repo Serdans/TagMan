@@ -12,9 +12,12 @@ public class Game extends Observable implements Runnable {
 	private TagMan tagman;
 	private Dash[] dashes;
 	private Wall[] standardWalls;
+	private ArrayList<Wall> levelWalls;
 	private int arenaWidth;
 	private int arenaHeight;
+	private LevelBuilder levelBuilder;
 	
+	private boolean gameOver;
 	private boolean levelInProgress;
 	private int currentLevel;
 	private int score;
@@ -23,12 +26,18 @@ public class Game extends Observable implements Runnable {
 	
 	public Game(MainController mc) {
 		this.mc = mc;
+		// Initialize level and score values..
 		currentLevel = 1;
+		gameOver = false;
 		score = 0;
+		levelInProgress = false;
+		levelWalls = new ArrayList<Wall>();
+		
+		levelBuilder = new LevelBuilder(this);
+		
 		configArenaSize();
 		initializeObjects();
 		resetDashPosition();
-		levelInProgress = false;
 	}
 	
 	public void startLevel() {
@@ -36,11 +45,27 @@ public class Game extends Observable implements Runnable {
 		levelInProgress = true;
 	}
 	
-	public void advanceLevel() {
+	public boolean advanceLevel() {
 		currentLevel++;
-		resetDashPosition();
-		tagman.setX(30);
-		tagman.setY(arenaHeight / 2);
+		// If there's another level, return true. Else return false, indicating
+		// we have reached the last level.
+		boolean advanced = levelBuilder.buildLevel(currentLevel);
+		
+		if (advanced) {
+			resetDashPosition();
+			tagman.setX(30);
+			tagman.setY(arenaHeight / 2);
+		} else {
+			// The next level was never made. Setting level back to previous.
+			currentLevel--;
+			gameOver = true;
+		}
+
+		return advanced;
+	}
+	
+	public boolean getGameOver() {
+		return gameOver;
 	}
 	
 	public void stopGame() {
@@ -100,6 +125,10 @@ public class Game extends Observable implements Runnable {
 	
 	public Wall[] getStandardWalls() {
 		return standardWalls;
+	}
+	
+	public ArrayList<Wall> getLevelWalls(){
+		return levelWalls;
 	}
 	
 	public Dash[] getDashes() {
