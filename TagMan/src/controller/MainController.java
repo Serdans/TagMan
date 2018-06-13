@@ -18,9 +18,7 @@ public class MainController {
 	private MainFrame mainFrame;
 	private TimeController tc;
 	private Game game;
-	private Thread timerThread;
 	private Thread gameThread;
-
 	
 	public MainController() {
 		game = new Game(this);		
@@ -39,8 +37,8 @@ public class MainController {
 		mainFrame.setVisible(true);
 		mainFrame.setLocationRelativeTo(null);
 		
-		timerThread = new Thread(game);
-		timerThread.start();
+		gameThread = new Thread(game);
+		gameThread.start();
 	}
 	
 	public Game getGame() {
@@ -59,13 +57,6 @@ public class MainController {
 		tc.stopTimer();
 	}
 	
-	private void startLevel() {
-		if (!game.levelInprogress()) {
-			gameThread = new Thread(game);
-			game.startLevel();
-			tc.startTimer();
-		}
-	}
 	
 	private void addMovementBindings() {
 		InputMap im = mainFrame.getPlayViewInputMap();

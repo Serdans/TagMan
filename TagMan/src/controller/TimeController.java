@@ -17,6 +17,7 @@ public class TimeController extends Observable implements Runnable {
 		timer = 30;
 		
 		// Indicate that the controller has initialized its time.
+		// View should reflect this change.
 		setChanged();
 	}
 	
@@ -48,7 +49,7 @@ public class TimeController extends Observable implements Runnable {
 				
 				// Timer stops if level is no longer in progress, or the timer reaches 0.
 				if (!mc.getGame().levelInprogress() && !mc.getGame().getTagMan().getDead()) {
-					// Set score if level is no longer in progress and TagMan didn't die.
+					// Set score if level is no longer in progress and TagMan didn't die. (Meaning TagMan made it to the end)
 					int currentScore = mc.getGame().getScore();
 					int newScore = currentScore + timer;
 					mc.getGame().setScore(newScore);
