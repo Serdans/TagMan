@@ -81,6 +81,7 @@ public class TimeView extends JPanel implements Observer {
 		timerBar.setValue(time);
 		timeAmount.setText(timeString);
 		
+		// Change color when the timer is a certain value.
 		switch (time) {
 		case 30:
 			timerBar.setForeground(Color.CYAN);

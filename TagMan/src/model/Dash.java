@@ -61,10 +61,10 @@ public class Dash extends GameObject {
 		int yDashMin = newPosY;
 
 		// Conditions for collision are:
-		// 1: The left side of TagMan is to the left of maximum X of the other object.
-		// 2: The right side of TagMan is to the right of the minimum X of the other
-		// object.
-		// 3: The
+		// 1: X1 of Dash is located to the left of TagMan's X2.
+		// 2: X2 of Dash is located to the right of TagMan's X1.
+		// 3: Y1 of Dash is located under Y2 of TagMan.
+		// 4: Y2 of Dash is located above Y1 of TagMan.
 		if (xDashMin < xTagMax && xDashMax > xTagMin && yDashMin < yTagMax && yDashMax > yTagMin) {
 			collision = true;
 			System.out.println(collision);
