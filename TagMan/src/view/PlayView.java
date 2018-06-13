@@ -27,10 +27,7 @@ public class PlayView extends JPanel implements Observer {
 
 	private TagManPainterPlain manPainter;
 	private Game game;
-	
 	private Message gameMessage;
-	
-	private static final String MOVE_UP = "move up";
 	
 	public PlayView(Game game) {
 		this.game = game;
@@ -46,7 +43,8 @@ public class PlayView extends JPanel implements Observer {
 		this.requestFocus();
 		
 		
-		gameMessage = new Message();
+		gameMessage = new Message(game);
+		gameMessage.setWelcomeMessage();
 		
 		this.setLayout(new GridBagLayout());
 		this.add(gameMessage, null);
@@ -58,6 +56,10 @@ public class PlayView extends JPanel implements Observer {
 	@Override
 	public void update(Observable o, Object object) {
 		repaint();
+		if (game.getTagMan().getDead()) {
+			gameMessage.setGameOverMessage();
+			
+		}
 	}
 
 	@Override

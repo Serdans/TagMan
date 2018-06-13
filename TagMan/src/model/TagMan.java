@@ -5,11 +5,15 @@ public class TagMan extends GameObject {
 	private Game game;
 	private int speed;
 	private boolean frozen;
+	private boolean finished;
+	private boolean dead;
 	
 	public TagMan(Game game) {
 		this.game = game;
 		
 		frozen = true;
+		finished = false;
+		
 		setSpeed(5);
 		
 		setX(30);
@@ -19,8 +23,29 @@ public class TagMan extends GameObject {
 		setHeight(30);
 	}
 	
+	public void setDead(boolean dead) {
+		this.dead = dead;
+		if (dead) {
+			this.frozen = true;
+		} else {
+			this.frozen = false;
+		}
+	}
+	
+	public boolean getDead() {
+		return dead;
+	}
+	
 	public void setFrozen(boolean frozen) {
 		this.frozen = frozen;
+	}
+	
+	public void setFinished(boolean finished) {
+		this.finished = finished;
+	}
+	
+	public boolean getFinished() {
+		return finished;
 	}
 	
 	@Override
@@ -56,9 +81,17 @@ public class TagMan extends GameObject {
 			}
 		}
 		
+		int tagManRightEdge = getX() + getWidth() / 2;
+		
+		if (tagManRightEdge >= game.getArenaWidth()) {
+			this.setFinished(true);
+			this.setFrozen(true);
+		}
+		
 		System.out.println(getX() + " " + getY());
 	}
 	
+	// Collision method checks if you are bumping into any walls.
 	private boolean moveWillCollision(int moveX, int moveY) {
 		boolean collision = false;
 		
@@ -90,9 +123,6 @@ public class TagMan extends GameObject {
 				break;
 			}
 		}
-		
-
-		
 		return collision;
 	}
 	

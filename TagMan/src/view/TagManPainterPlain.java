@@ -19,7 +19,7 @@ public class TagManPainterPlain implements ITagManPainter {
 		int yPosToDraw = yPos - height / 2;
 		
 		g.setColor(Color.RED);
-		g.fillOval(xPosToDraw, yPosToDraw, width, height);
+		g.fillOval(xPosToDraw, yPosToDraw, width, height);	
 
 	}
 	

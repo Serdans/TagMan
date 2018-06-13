@@ -29,6 +29,7 @@ public class GameView extends JPanel implements Observer {
 	
 	public GameView(Game game) {
 		this.game = game;
+		game.addObserver(this);
 		
 		this.setBackground(Color.BLACK);
 		this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.GRAY));
@@ -103,7 +104,8 @@ public class GameView extends JPanel implements Observer {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		
+		setLevel(game.getLevel());
+		setScore(game.getScore());
 	}
 	
 	

@@ -6,13 +6,18 @@ import view.TimeView;
 
 public class TimeController extends Observable implements Runnable {
 
+	private MainController mc;
 	private Thread thread;
 	private int timer;
 	private boolean countingDown;
 	
 	public TimeController(MainController mc) {
+		this.mc = mc;
 		this.addObserver(mc.getTimeView());
 		timer = 30;
+		
+		// Indicate that the controller has initialized its time.
+		setChanged();
 	}
 	
 	public void startTimer() {
@@ -23,6 +28,10 @@ public class TimeController extends Observable implements Runnable {
 		thread.start();
 	}
 	
+	public void stopTimer() {
+		this.countingDown = false;
+	}
+	
 	public int getTime() {
 		return timer;
 	}
@@ -31,6 +40,7 @@ public class TimeController extends Observable implements Runnable {
 	public void run() {
 		while (countingDown) {
 			try {
+				
 				this.setChanged();
 				this.notifyObservers();
 				timer --;
@@ -42,6 +52,7 @@ public class TimeController extends Observable implements Runnable {
 					this.notifyObservers();
 					// Stop counting down.
 					countingDown = false;
+					mc.getGame().stopGame();
 				}
 				
 			} catch (InterruptedException e) {

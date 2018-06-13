@@ -17,25 +17,29 @@ public class MainController {
 	private MainFrame mainFrame;
 	private TimeController tc;
 	private Game game;
-	private Thread thread;
+	private Thread timerThread;
+	private Thread gameThread;
 
 	
 	public MainController() {
-		game = new Game();		
+		game = new Game(this);		
 		mainFrame = new MainFrame(this, game);
 
 		tc = new TimeController(this);
+		// Assign a TimeController to the Time View.
 		mainFrame.getTimeView().setTimeController(tc);
-
+		
+		// Let Time View know that it has to update its timer.
+		tc.notifyObservers();
 		addMovementBindings();
-		tc.startTimer();
 	}
 	
 	public void startApplication() {
 		mainFrame.setVisible(true);
+		mainFrame.setLocationRelativeTo(null);
 		
-		thread = new Thread(game);
-		thread.start();
+		timerThread = new Thread(game);
+		timerThread.start();
 	}
 	
 	public Game getGame() {
@@ -46,8 +50,16 @@ public class MainController {
 		return mainFrame.getTimeView();
 	}
 	
-	public TimeController getTimeController() {
-		return tc;
+	public void stopTimer() {
+		tc.stopTimer();
+	}
+	
+	private void startLevel() {
+		if (!game.gameInProgress()) {
+			gameThread = new Thread(game);
+			game.startGame();
+			tc.startTimer();
+		}
 	}
 	
 	private void addMovementBindings() {
@@ -68,10 +80,19 @@ public class MainController {
 		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD1, 0), "DOWN_LEFT");
 		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD3, 0), "DOWN_RIGHT");
 		
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0), "START");
+		
+		am.put("START", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				startLevel();
+			}
+		});
+		
 		am.put("UP_LEFT", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int speed = game.getTagMan().getSpeed();
+				int speed = game.getTagMan().getSpeed() * 2/3;
 				game.getTagMan().moveObject(-speed, -speed);
 			}
 			
@@ -81,7 +102,7 @@ public class MainController {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int speed = game.getTagMan().getSpeed();
+				int speed = game.getTagMan().getSpeed() * 2/3;
 				game.getTagMan().moveObject(-speed, speed);
 				
 			}
@@ -90,7 +111,7 @@ public class MainController {
 		am.put("UP_RIGHT", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int speed = game.getTagMan().getSpeed();
+				int speed = game.getTagMan().getSpeed() * 2/3;
 				game.getTagMan().moveObject(speed, -speed);
 			}
 		});
@@ -98,7 +119,7 @@ public class MainController {
 		am.put("DOWN_RIGHT", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int speed = game.getTagMan().getSpeed();
+				int speed = game.getTagMan().getSpeed() * 2/3;
 				game.getTagMan().moveObject(speed, speed);
 			}
 		});

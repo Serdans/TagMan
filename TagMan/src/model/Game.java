@@ -2,7 +2,9 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Random;
 
+import controller.MainController;
 import view.GameView;
 
 public class Game extends Observable implements Runnable {
@@ -13,10 +15,34 @@ public class Game extends Observable implements Runnable {
 	private int arenaWidth;
 	private int arenaHeight;
 	
-	public Game() {
+	private boolean gameInProgress;
+	private int currentLevel;
+	private int score;
+	
+	private MainController mc;
+	
+	public Game(MainController mc) {
+		this.mc = mc;
+		
 		configArenaSize();
 		initializeObjects();
 		resetDashPosition();
+		gameInProgress = false;
+	}
+	
+	public void startGame() {
+		score = 0;
+		currentLevel = 1;
+		tagman.setFrozen(false);
+		gameInProgress = true;
+	}
+	
+	public void stopGame() {
+		tagman.setFrozen(true);
+	}
+	
+	public MainController getMainController() {
+		return mc;
 	}
 	
 	@Override
@@ -25,12 +51,27 @@ public class Game extends Observable implements Runnable {
 			while (true) {
 				this.setChanged();
 				this.notifyObservers();
+				if (gameInProgress) {
+					dropDashes();
+				}
 				Thread.sleep(1000/30);
 			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public boolean gameInProgress() {
+		return gameInProgress;
+	}
+	
+	public int getScore() {
+		return score;
+	}
+	
+	public int getLevel() {
+		return currentLevel;
 	}
 	
 	public TagMan getTagMan() {
@@ -59,15 +100,36 @@ public class Game extends Observable implements Runnable {
 		arenaHeight = 650;
 	}
 	
+	private void dropDashes() {
+		for (Dash dash : dashes) {
+			if (!dash.getDropping()) {
+				// This dash has not dropped yet. Deciding whether it's going to drop or not.
+				Random random = new Random();
+				int randomNumber = random.nextInt(4);
+				if (randomNumber == 0) {
+					// 20% chance of dropping.
+					dash.setDropping(true);
+					
+					// Decide its falling speed.
+					int fallSpeed = random.nextInt(4) + 2;
+					dash.setFallSpeed(fallSpeed);
+				}
+			} else {
+				dash.moveObject(0, dash.getFallSpeed());
+			}
+		}
+	}
+	
 	private void resetDashPosition() {
 		// Start dash position at the first free X with some spacing.
 		int dashX = standardWalls[0].getWidth();
 		
+		// We can use the width of the wall to roughly calculate what space is occupied.
 		int occupiedSpace = dashX * 4;
 		int freeSpace = arenaWidth - occupiedSpace;
 		
+		// Place the dashes an even amount from each other.
 		int dashSpacing = freeSpace / 10;
-		System.out.println(arenaWidth);
 		
 		dashX += dashSpacing;	
 		
@@ -86,7 +148,7 @@ public class Game extends Observable implements Runnable {
 		dashes = new Dash[10];
 		
 		for (int d = 0; d < 10; d++) {
-			dashes[d] = new Dash();
+			dashes[d] = new Dash(this);
 		}
 		
 		createStandardWalls();

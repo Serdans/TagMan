@@ -17,14 +17,30 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.Game;
+
 public class Message extends JPanel {
 
+	private Game game;
 	private JLabel message;
 	private Font messageFont;
 	
-	public Message() {
+	public Message(Game game) {
 		this.setPreferredSize(new Dimension(500, 300));
+		this.game = game;
 		addMessage();
+	}
+	
+	public void setWelcomeMessage() {
+		message.setText("<html><center>Welcome to TagMan<br>move with arrows or numpad<br><br>Level 1<br>Hit S to start!</html>");
+	}
+	
+	public void setGameOverMessage() {
+		message.setText("<html><center>HIT - Game Over!</html>");
+	}
+	
+	public void setWonMessage() {
+		message.setText("<html><center>Congratulations!<br>You've won with a score of: " + game.getScore() + " </html>");
 	}
 	
 	private void addMessage() {
