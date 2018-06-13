@@ -15,7 +15,7 @@ public class MainFrame extends JFrame {
 	public MainFrame(MainController controller, Game game) {
 		cp = new ContentPane(controller, game);
 
-		this.setTitle("Ass");
+		this.setTitle("TagMan by Tuan-Anh Nguyen");
 		this.setContentPane(cp);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
