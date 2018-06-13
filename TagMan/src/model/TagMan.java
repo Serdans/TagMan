@@ -14,7 +14,7 @@ public class TagMan extends GameObject {
 		frozen = true;
 		finished = false;
 		
-		setSpeed(5);
+		setSpeed(15);
 		
 		setX(30);
 		setY(game.getArenaHeight()/2);
@@ -50,7 +50,6 @@ public class TagMan extends GameObject {
 	
 	@Override
 	public void moveObject(int x, int y) {
-		
 		if (!frozen) {
 			// Check if movement is being made along the x-axis or y-axis.
 			int absY = Math.abs(y);
@@ -119,7 +118,8 @@ public class TagMan extends GameObject {
 			// 3: The 
 			if (xTagMin < xWallMax && xTagMax > xWallMin && yTagMin < yWallMax && yTagMax > yWallMin) {
 				collision = true;
-				System.out.println(collision);
+				// Allow baby steps to move up to the wall.
+				moveObject(moveX/2, moveY/2);
 				break;
 			}
 		}
@@ -142,45 +142,6 @@ public class TagMan extends GameObject {
 			touching = true;
 		}
 		return touching;
-	}
-	
-	private boolean collisionsUp() {
-		boolean collisionsUp = true;
-		Wall[] standardWalls = game.getStandardWalls();
-		int upperEdgeY = getY() - getHeight() / 2;
-		
-		for (Wall wall : standardWalls) {
-			if (upperEdgeY < (wall.getY() + wall.getHeight())) {
-				collisionsUp = false;
-			}
-		}
-		return collisionsUp;
-	}
-	
-	private boolean collisionsDown() {
-		boolean collisionsDown = true;
-		if (getY() - getHeight() < game.getArenaHeight()) {
-			collisionsDown = false;
-		}
-		return collisionsDown;
-	}
-	
-	private boolean collisionsLeft() {
-		boolean collisionsLeft = false;
-		
-		int x1 = getX();
-		int y1 = getY();
-		int y2 = getY() + getHeight();
-		
-		return collisionsLeft;
-	}
-	
-	private boolean collisionsRight() {
-		boolean collisionsRight = true;
-		if (getX() + getWidth() < game.getArenaWidth()) {
-			collisionsRight = false;
-		}
-		return collisionsRight;
 	}
 	
 	public void setSpeed(int speed) {

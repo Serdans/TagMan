@@ -9,6 +9,7 @@ import javax.swing.InputMap;
 import javax.swing.KeyStroke;
 
 import model.Game;
+import view.GameView;
 import view.MainFrame;
 import view.TimeView;
 
@@ -50,14 +51,18 @@ public class MainController {
 		return mainFrame.getTimeView();
 	}
 	
+	public GameView getGameView() {
+		return mainFrame.getGameView();
+	}
+	
 	public void stopTimer() {
 		tc.stopTimer();
 	}
 	
 	private void startLevel() {
-		if (!game.gameInProgress()) {
+		if (!game.levelInprogress()) {
 			gameThread = new Thread(game);
-			game.startGame();
+			game.startLevel();
 			tc.startTimer();
 		}
 	}
@@ -80,12 +85,36 @@ public class MainController {
 		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD1, 0), "DOWN_LEFT");
 		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD3, 0), "DOWN_RIGHT");
 		
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_L, 0), "NEXT");
 		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0), "START");
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "EXIT");
+		
+		am.put("NEXT", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (game.getTagMan().getFinished()) {
+					game.getTagMan().setFinished(false);
+					game.advanceLevel();
+					mainFrame.getPlayView().setBeginningLevelMessage();
+				}
+				
+			}
+		});
+		
+		am.put("EXIT", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+			}
+		});
 		
 		am.put("START", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				startLevel();
+				if (!game.levelInprogress()) {
+					game.startLevel();
+					tc.startTimer();
+				}
 			}
 		});
 		

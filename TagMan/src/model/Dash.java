@@ -19,6 +19,8 @@ public class Dash extends GameObject {
 	public void moveObject(int x, int y) {
 		if (checkCollision(tagMan, x, y)) {
 			tagMan.setDead(true);
+			super.moveObject(x, y);
+			game.setLevelInProgress(false);
 			game.getMainController().stopTimer();
 		}
 		super.moveObject(x, y);

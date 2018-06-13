@@ -33,6 +33,10 @@ public class ContentPane extends JPanel {
 		return playView;
 	}
 	
+	public GameView getGameView() {
+		return gameView;
+	}
+	
 	public TimeView getTimeView() {
 		return timeView;
 	}
@@ -43,6 +47,7 @@ public class ContentPane extends JPanel {
 		gbc.weightx = 0.2;
 		gbc.weighty = 1;
 		gbc.fill = GridBagConstraints.BOTH;
+		sideBar.setPreferredSize(new Dimension(150, 0));
 		this.add(sideBar, gbc);
 		
 		gbc.weightx = 1;

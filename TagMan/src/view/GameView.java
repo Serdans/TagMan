@@ -104,7 +104,7 @@ public class GameView extends JPanel implements Observer {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		setLevel(game.getLevel());
+		setLevel(game.getCurrentLevel());
 		setScore(game.getScore());
 	}
 	

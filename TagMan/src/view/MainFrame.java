@@ -25,6 +25,14 @@ public class MainFrame extends JFrame {
 		return cp.getTimeView();
 	}
 	
+	public GameView getGameView() {
+		return cp.getGameView();
+	}
+	
+	public PlayView getPlayView() {
+		return cp.getPlayView();
+	}
+	
 	public InputMap getPlayViewInputMap() {
 		return cp.getPlayView().getInputMap();
 	}

@@ -40,13 +40,22 @@ public class TimeController extends Observable implements Runnable {
 	public void run() {
 		while (countingDown) {
 			try {
-				
+				timer --;
 				this.setChanged();
 				this.notifyObservers();
-				timer --;
+				
 				Thread.sleep(1000);
 				
-				if (timer == 0) {
+				// Timer stops if level is no longer in progress, or the timer reaches 0.
+				if (!mc.getGame().levelInprogress() && !mc.getGame().getTagMan().getDead()) {
+					// Set score if level is no longer in progress and TagMan didn't die.
+					int currentScore = mc.getGame().getScore();
+					int newScore = currentScore + timer;
+					mc.getGame().setScore(newScore);
+					countingDown = false;
+					this.setChanged();
+					this.notifyObservers();
+				} else if (timer == 0) {
 					// Update the value in the view.
 					this.setChanged();
 					this.notifyObservers();

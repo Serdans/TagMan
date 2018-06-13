@@ -35,8 +35,16 @@ public class Message extends JPanel {
 		message.setText("<html><center>Welcome to TagMan<br>move with arrows or numpad<br><br>Level 1<br>Hit S to start!</html>");
 	}
 	
+	public void setPreLevelStartMessage() {
+		message.setText("<html><center>Level " + game.getCurrentLevel() + " <br>Hit S to start!</html>");
+	}
+	
 	public void setGameOverMessage() {
-		message.setText("<html><center>HIT - Game Over!</html>");
+		message.setText("<html><center>HIT - Game Over!<br>Your score: " + game.getScore() + " </html>");
+	}
+	
+	public void setLevelOverMessage() {
+		message.setText("<html><center>Level Complete<br>Current Score: " + game.getScore() + "<br><br>Hit L to continue.</html>");
 	}
 	
 	public void setWonMessage() {

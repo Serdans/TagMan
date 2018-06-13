@@ -15,7 +15,7 @@ public class Game extends Observable implements Runnable {
 	private int arenaWidth;
 	private int arenaHeight;
 	
-	private boolean gameInProgress;
+	private boolean levelInProgress;
 	private int currentLevel;
 	private int score;
 	
@@ -23,18 +23,24 @@ public class Game extends Observable implements Runnable {
 	
 	public Game(MainController mc) {
 		this.mc = mc;
-		
+		currentLevel = 1;
+		score = 0;
 		configArenaSize();
 		initializeObjects();
 		resetDashPosition();
-		gameInProgress = false;
+		levelInProgress = false;
 	}
 	
-	public void startGame() {
-		score = 0;
-		currentLevel = 1;
+	public void startLevel() {
 		tagman.setFrozen(false);
-		gameInProgress = true;
+		levelInProgress = true;
+	}
+	
+	public void advanceLevel() {
+		currentLevel++;
+		resetDashPosition();
+		tagman.setX(30);
+		tagman.setY(arenaHeight / 2);
 	}
 	
 	public void stopGame() {
@@ -51,9 +57,13 @@ public class Game extends Observable implements Runnable {
 			while (true) {
 				this.setChanged();
 				this.notifyObservers();
-				if (gameInProgress) {
+				
+				if (tagman.getFinished()) {
+					levelInProgress = false;
+				} else if (levelInProgress) {
 					dropDashes();
 				}
+				
 				Thread.sleep(1000/30);
 			}
 		} catch (InterruptedException e) {
@@ -62,15 +72,25 @@ public class Game extends Observable implements Runnable {
 		}
 	}
 	
-	public boolean gameInProgress() {
-		return gameInProgress;
+	public void setLevelInProgress(boolean levelInProgress) {
+		this.levelInProgress = levelInProgress;
+	}
+	
+	public boolean levelInprogress() {
+		return levelInProgress;
+	}
+	
+	public void setScore(int score) {
+		this.score = score;
+		this.setChanged();
+		this.notifyObservers();
 	}
 	
 	public int getScore() {
 		return score;
 	}
 	
-	public int getLevel() {
+	public int getCurrentLevel() {
 		return currentLevel;
 	}
 	
@@ -119,6 +139,7 @@ public class Game extends Observable implements Runnable {
 			}
 		}
 	}
+
 	
 	private void resetDashPosition() {
 		// Start dash position at the first free X with some spacing.
@@ -144,7 +165,6 @@ public class Game extends Observable implements Runnable {
 	
 	private void initializeObjects() {
 		tagman = new TagMan(this);
-		
 		dashes = new Dash[10];
 		
 		for (int d = 0; d < 10; d++) {

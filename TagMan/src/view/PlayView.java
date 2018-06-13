@@ -53,13 +53,28 @@ public class PlayView extends JPanel implements Observer {
 		System.out.println(arenaHeight);
 	}
 
+	public void setBeginningLevelMessage() {
+		gameMessage.setPreLevelStartMessage();
+	}
+	
 	@Override
 	public void update(Observable o, Object object) {
-		repaint();
-		if (game.getTagMan().getDead()) {
-			gameMessage.setGameOverMessage();
-			
+		if (game.levelInprogress()) {
+			if (gameMessage.isVisible()) {
+				gameMessage.setVisible(false);
+			}
 		}
+		
+		if (game.getTagMan().getDead()) {
+			gameMessage.setVisible(true);
+			gameMessage.setGameOverMessage();
+		}
+		
+		if (game.getTagMan().getFinished() && game.getTagMan().getFinished()) {
+			gameMessage.setVisible(true);
+			gameMessage.setLevelOverMessage();
+		}
+		repaint();
 	}
 
 	@Override
@@ -77,20 +92,18 @@ public class PlayView extends JPanel implements Observer {
 		manPainter.paint(g, this, game.getTagMan());
 	}
 	
+	private void drawWall(Graphics g) {
+		
+	}
+	
 	private void drawStandardWalls(Graphics g) {
 		Wall[] standardWalls = game.getStandardWalls();
-		
 		for (Wall wall : standardWalls) {
 			g.setColor(Color.LIGHT_GRAY);
-
 			g.fillRect(wall.getX(), wall.getY(), wall.getWidth(), wall.getHeight());
 			g.setColor(Color.GRAY);
 			g.fillRect(wall.getX() + 10, wall.getY() + 10, wall.getWidth() - 20, wall.getHeight() - 20);
 		}
-	}
-	
-	private void drawWall(Graphics g) {
-		
 	}
 	
 	private void drawDashes(Graphics g) {
