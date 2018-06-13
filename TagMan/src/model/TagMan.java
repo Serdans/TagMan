@@ -4,81 +4,96 @@ public class TagMan extends GameObject {
 
 	private Game game;
 	private int speed;
+	private boolean frozen;
 	
 	public TagMan(Game game) {
 		this.game = game;
 		
+		frozen = true;
 		setSpeed(5);
 		
-		setX(15);
+		setX(30);
 		setY(game.getArenaHeight()/2);
 		
 		setWidth(30);
 		setHeight(30);
 	}
 	
+	public void setFrozen(boolean frozen) {
+		this.frozen = frozen;
+	}
+	
 	@Override
 	public void moveObject(int x, int y) {
-		// Check if movement is being made along the x-axis or y-axis.
-		int absX = Math.abs(x);
-		int absY = Math.abs(y);
 		
-		if (absY > 0) {
-			if (y > 0) {
-				// Check if you are touching the bottom or the bottom edge.
-				if (!touchingBottomEdge()) {
-					super.moveObject(x, y);
-				}
-			} else {
-				if (!touchingTopEdge()) {
-					if (!aboutToHitWall()) {
-						super.moveObject(x, y);
+		if (!frozen) {
+			// Check if movement is being made along the x-axis or y-axis.
+			int absY = Math.abs(y);
+			
+			if (absY > 0) {
+				if (y > 0) {
+					// Check if you are touching the bottom or the bottom edge.
+					if (!touchingBottomEdge()) {
+						// Check if TagMan will collision with a wall.
+						if (!moveWillCollision(x, y)) {
+							super.moveObject(x, y);
+						}
+					}
+				} else {
+					if (!touchingTopEdge()) {
+						if (!moveWillCollision(x, y)) {
+							super.moveObject(x, y); 
+						}
 					}
 				}
 			}
-		}
-		
-		else {
-			super.moveObject(x, y);
+			// Movement not along Y-axis. So it's along the X-axis.
+			else {
+				// Only have to check if TagMan collisions with a wall.
+				if (!moveWillCollision(x, y)) {
+					super.moveObject(x, y);
+				}
+			}
 		}
 		
 		System.out.println(getX() + " " + getY());
 	}
 	
-	private boolean aboutToHitWall() {
-		boolean hit = true;
+	private boolean moveWillCollision(int moveX, int moveY) {
+		boolean collision = false;
+		
+		int newPosX = this.getX() + moveX;
+		int newPosY = this.getY() + moveY;
 		
 		Wall[] walls = game.getStandardWalls();
 		
-		
-		int xWallMax = walls[0].getX() + walls[0].getWidth();
-		int xTagMax = this.getX() + this.getWidth() / 2;
-		
-		int xWallMin = walls[0].getX();
-		int xTagMin = this.getX() - this.getWidth() / 2;
-		
-		if (xTagMin >= xWallMax || xTagMax <= xWallMin) {
-			hit = false;
-		}
-		return hit;
-	}
-	
-	private boolean horizontalCollision() {
-		boolean hit = true;
-		
-		Wall[] walls = game.getStandardWalls();
-		
-		int yWallMax = walls[0].getY() + walls[0].getHeight();
-		int yTagMax = this.getY() + this.getHeight() / 2;
-		
-		int yWallMin = walls[0].getY();
-		int yTagMin = this.getY() - this.getHeight() / 2;
-		
-		if (yTagMin >= yWallMax || yTagMax >= yWallMin) {
-			hit = false;
+		for (Wall wall : walls) {
+			int xWallMax = wall.getX() + wall.getWidth();
+			int xTagMax = newPosX + this.getWidth() / 2;
+			
+			int xWallMin = wall.getX();
+			int xTagMin = newPosX - this.getWidth() / 2;
+			
+			int yWallMax = wall.getY() + wall.getHeight();
+			int yTagMax = newPosY + this.getHeight() / 2;
+			
+			int yWallMin = wall.getY();
+			int yTagMin = newPosY - this.getHeight() / 2;
+			
+			// Conditions for collision are:
+			// 1: The left side of TagMan is to the left of maximum X of the other object.
+			// 2: The right side of TagMan is to the right of the minimum X of the other object.
+			// 3: The 
+			if (xTagMin < xWallMax && xTagMax > xWallMin && yTagMin < yWallMax && yTagMax > yWallMin) {
+				collision = true;
+				System.out.println(collision);
+				break;
+			}
 		}
 		
-		return hit;
+
+		
+		return collision;
 	}
 	
 	private boolean touchingBottomEdge() {
