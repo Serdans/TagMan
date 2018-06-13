@@ -69,9 +69,7 @@ public class Game extends Observable implements Runnable {
 		int dashSpacing = freeSpace / 10;
 		System.out.println(arenaWidth);
 		
-		dashX += dashSpacing;
-		System.out.println(dashX);
-		System.out.println(dashSpacing);
+		dashX += dashSpacing;	
 		
 		for (Dash dash : dashes) {
 			dash.setY(0);
@@ -80,10 +78,10 @@ public class Game extends Observable implements Runnable {
 			dashX += dashSpacing;
 		}
 	}
+
 	
 	private void initializeObjects() {
 		tagman = new TagMan(this);
-		tagman.setSpeed(10);
 		
 		dashes = new Dash[10];
 		

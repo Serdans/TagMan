@@ -59,6 +59,50 @@ public class MainController {
 		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "RIGHT");
 		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "DOWN");
 		
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD4, 0), "LEFT");
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD8, 0), "UP");
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD6, 0), "RIGHT");
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD2, 0), "DOWN");
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD9, 0), "UP_RIGHT");
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD7, 0), "UP_LEFT");
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD1, 0), "DOWN_LEFT");
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD3, 0), "DOWN_RIGHT");
+		
+		am.put("UP_LEFT", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int speed = game.getTagMan().getSpeed();
+				game.getTagMan().moveObject(-speed, -speed);
+			}
+			
+		});
+		
+		am.put("DOWN_LEFT", new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int speed = game.getTagMan().getSpeed();
+				game.getTagMan().moveObject(-speed, speed);
+				
+			}
+		});
+		
+		am.put("UP_RIGHT", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int speed = game.getTagMan().getSpeed();
+				game.getTagMan().moveObject(speed, -speed);
+			}
+		});
+		
+		am.put("DOWN_RIGHT", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int speed = game.getTagMan().getSpeed();
+				game.getTagMan().moveObject(speed, speed);
+			}
+		});
+		
 		am.put("UP", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

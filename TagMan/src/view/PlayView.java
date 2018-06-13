@@ -28,8 +28,7 @@ public class PlayView extends JPanel implements Observer {
 	private TagManPainterPlain manPainter;
 	private Game game;
 	
-	private JPanel welcomePanel;
-	private JLabel welcomeMessage;
+	private Message gameMessage;
 	
 	private static final String MOVE_UP = "move up";
 	
@@ -45,6 +44,12 @@ public class PlayView extends JPanel implements Observer {
 		this.setBackground(Color.BLUE);
 		this.setFocusable(true);
 		this.requestFocus();
+		
+		
+		gameMessage = new Message();
+		
+		this.setLayout(new GridBagLayout());
+		this.add(gameMessage, null);
 		
 		System.out.println(arenaWidth);
 		System.out.println(arenaHeight);
