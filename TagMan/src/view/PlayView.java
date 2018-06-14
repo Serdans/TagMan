@@ -27,6 +27,7 @@ import model.Wall;
 public class PlayView extends JPanel implements Observer {
 
 	private TagManPainterPlain manPainter;
+	private TagManPainterAnimated aniPainter;
 	private Game game;
 	private Message gameMessage;
 	
@@ -37,6 +38,7 @@ public class PlayView extends JPanel implements Observer {
 		int arenaHeight = game.getArenaHeight();
 		
 		game.addObserver(this);
+		aniPainter = new TagManPainterAnimated();
 		manPainter = new TagManPainterPlain();
 		this.setPreferredSize(new Dimension(arenaWidth, arenaHeight));
 		this.setBackground(Color.BLUE);
@@ -92,7 +94,7 @@ public class PlayView extends JPanel implements Observer {
 	}
 	
 	private void drawTagMan(Graphics g) {
-		manPainter.paint(g, this, game.getTagMan());
+		aniPainter.paint(g, this, game.getTagMan());
 	}
 	
 	
