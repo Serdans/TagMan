@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import controller.SoundPlayer;
+
 public class TagMan extends GameObject {
 
 	private Game game;
@@ -11,13 +13,17 @@ public class TagMan extends GameObject {
 	private boolean frozen;
 	private boolean finished;
 	private boolean dead;
+	private SoundPlayer soundPlayer;
 	
 	public TagMan(Game game) {
 		this.game = game;
+		this.soundPlayer = game.getMainController().getSoundPlayer();
 		
+		// Initialize default values..
 		frozen = true;
 		finished = false;
-		
+		aniFrame = AnimationFrame.MOVE0; 
+				
 		setSpeed(15);
 		
 		setX(30);
@@ -30,6 +36,8 @@ public class TagMan extends GameObject {
 	public void setDead(boolean dead) {
 		this.dead = dead;
 		if (dead) {
+			soundPlayer.playSound("dead");
+			aniFrame = AnimationFrame.HIT;
 			this.frozen = true;
 		} else {
 			this.frozen = false;
@@ -45,6 +53,12 @@ public class TagMan extends GameObject {
 	}
 	
 	public void setFinished(boolean finished) {
+		if (finished) {
+			soundPlayer.playSound("finished");
+			aniFrame = AnimationFrame.FINISHED;
+		} else {
+			aniFrame = AnimationFrame.MOVE1;
+		}
 		this.finished = finished;
 	}
 	
@@ -54,6 +68,8 @@ public class TagMan extends GameObject {
 	
 	@Override
 	public void moveObject(int x, int y) {
+		boolean moved = false;
+		
 		if (!frozen) {
 			// Check if movement is being made along the x-axis or y-axis.
 			int absY = Math.abs(y);
@@ -65,12 +81,14 @@ public class TagMan extends GameObject {
 						// Check if TagMan will collision with a wall.
 						if (!moveWillCollision(x, y)) {
 							super.moveObject(x, y);
+							moved = true;
 						}
 					}
 				} else {
 					if (!touchingTopEdge()) {
 						if (!moveWillCollision(x, y)) {
 							super.moveObject(x, y); 
+							moved = true;
 						}
 					}
 				}
@@ -80,18 +98,52 @@ public class TagMan extends GameObject {
 				// Only have to check if TagMan collisions with a wall.
 				if (!moveWillCollision(x, y)) {
 					super.moveObject(x, y);
+					moved = true;
 				}
+			}
+			
+			if (moved) {
+				setMovementAnimation();
 			}
 		}
 		
+		// Calculate the x of TagMan's right edge.
 		int tagManRightEdge = getX() + getWidth() / 2;
 		
+		// TagMan is finished if he finds himself within 10 pixels from the area end.
 		if (tagManRightEdge >= game.getArenaWidth()-10) {
 			this.setFinished(true);
 			this.setFrozen(true);
+		}	
+	}
+	
+	public AnimationFrame getCurrentAnimationFrame() {
+		return aniFrame;
+	}
+	
+	private void setMovementAnimation() {
+		switch (aniFrame) {
+		case MOVE0:
+			aniFrame = AnimationFrame.MOVE1;
+			break;
+		case MOVE1:
+			aniFrame = AnimationFrame.MOVE2;
+			break;
+		case MOVE2:
+			aniFrame = AnimationFrame.MOVE3;
+			break;
+		case MOVE3:
+			aniFrame = AnimationFrame.MOVE4;
+			break;
+		case MOVE4:
+			aniFrame = AnimationFrame.MOVE5;
+			break;
+		case MOVE5:
+			aniFrame = AnimationFrame.MOVE0;
+			break;
+		default:
+			
 		}
-		
-		System.out.println(getX() + " " + getY());
 	}
 	
 	// Collision method checks if you are bumping into any walls.

@@ -17,13 +17,15 @@ public class MainController {
 	
 	private MainFrame mainFrame;
 	private TimeController tc;
+	private SoundPlayer sp;
 	private Game game;
 	private Thread gameThread;
 	
+	
 	public MainController() {
+		sp = new SoundPlayer();
 		game = new Game(this);		
 		mainFrame = new MainFrame(this, game);
-
 		tc = new TimeController(this);
 		// Assign a TimeController to the Time View.
 		mainFrame.getTimeView().setTimeController(tc);
@@ -43,6 +45,10 @@ public class MainController {
 	
 	public Game getGame() {
 		return game;
+	}
+	
+	public SoundPlayer getSoundPlayer() {
+		return sp;
 	}
 	
 	public TimeView getTimeView() {
