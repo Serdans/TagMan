@@ -7,7 +7,6 @@ public class TagMan extends GameObject {
 
 	private Game game;
 	private int speed;
-	public int moving;
 	private boolean frozen;
 	private boolean finished;
 	private boolean dead;
@@ -25,14 +24,6 @@ public class TagMan extends GameObject {
 		
 		setWidth(30);
 		setHeight(30);
-	}
-	
-	public void setMoving(int moving) {
-		this.moving = moving;
-	}
-	
-	public int getMoving() {
-		return moving;
 	}
 	
 	public void setDead(boolean dead) {
