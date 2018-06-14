@@ -24,6 +24,7 @@ public class SoundPlayer {
 		File sound = new File(soundDir);
 		
 		try {
+			// Get the audio inputstream of the sound file.
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(sound);
 			clip = AudioSystem.getClip();
 			clip.open(audioInputStream);

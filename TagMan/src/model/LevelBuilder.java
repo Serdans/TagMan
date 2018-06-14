@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class LevelBuilder {
 
+	// This class creates levels.
 	private Game game;
 	private ArrayList<Wall> walls;
 	

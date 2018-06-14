@@ -26,7 +26,6 @@ import model.Wall;
 
 public class PlayView extends JPanel implements Observer {
 
-	private TagManPainterPlain manPainter;
 	private TagManPainterAnimated aniPainter;
 	private Game game;
 	private Message gameMessage;
@@ -39,21 +38,17 @@ public class PlayView extends JPanel implements Observer {
 		
 		game.addObserver(this);
 		aniPainter = new TagManPainterAnimated();
-		manPainter = new TagManPainterPlain();
 		this.setPreferredSize(new Dimension(arenaWidth, arenaHeight));
 		this.setBackground(Color.BLUE);
 		this.setFocusable(true);
 		this.requestFocus();
 		
-		
+		// Message that's displayed on startup.
 		gameMessage = new Message(game);
 		gameMessage.setWelcomeMessage();
 		
 		this.setLayout(new GridBagLayout());
 		this.add(gameMessage, null);
-		
-		System.out.println(arenaWidth);
-		System.out.println(arenaHeight);
 	}
 
 	public void setBeginningLevelMessage() {

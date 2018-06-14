@@ -17,6 +17,7 @@ public class Dash extends GameObject {
 	
 	@Override
 	public void moveObject(int x, int y) {
+		// The dash checks if it has hit TagMan. If it hits TagMan kill him.
 		if (checkCollision(tagMan, x, y)) {
 			tagMan.setDead(true);
 			super.moveObject(x, y);
@@ -67,7 +68,6 @@ public class Dash extends GameObject {
 		// 4: Y2 of Dash is located above Y1 of TagMan.
 		if (xDashMin < xTagMax && xDashMax > xTagMin && yDashMin < yTagMax && yDashMax > yTagMin) {
 			collision = true;
-			System.out.println(collision);
 		}
 		
 		return collision;

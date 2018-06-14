@@ -109,7 +109,7 @@ public class MainController {
 		am.put("START", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (!game.levelInprogress() && !game.getTagMan().getFinished()) {
+				if (!game.levelInprogress() && !game.getTagMan().getFinished() && !game.getTagMan().getDead()) {
 					game.startLevel();
 					tc.startTimer();
 				}

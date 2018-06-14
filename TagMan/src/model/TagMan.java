@@ -111,7 +111,7 @@ public class TagMan extends GameObject {
 		int tagManRightEdge = getX() + getWidth() / 2;
 		
 		// TagMan is finished if he finds himself within 10 pixels from the area end.
-		if (tagManRightEdge >= game.getArenaWidth()-10) {
+		if (tagManRightEdge >= game.getArenaWidth()-10 && !finished) {
 			this.setFinished(true);
 			this.setFrozen(true);
 		}	
