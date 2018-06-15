@@ -1,7 +1,6 @@
 package controller;
 
-import java.io.File;
-import java.net.URL;
+
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -15,17 +14,16 @@ public class SoundPlayer {
 	public void playSound(String soundType) {
 		String soundDir = "";
 		if (soundType.equals("dead")) {
-			soundDir = "resources/death.wav";
+			soundDir = "/resources/death.wav";
 		} else {
-			soundDir = "resources/finished.wav";
+			soundDir = "/resources/finished.wav";
 		}
 		
 		Clip clip = null;
-		File sound = new File(soundDir);
 		
 		try {
 			// Get the audio inputstream of the sound file.
-			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(sound);
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(this.getClass().getResource(soundDir));
 			clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
